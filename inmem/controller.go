@@ -32,6 +32,7 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		payload, err := c.parseRequestJSON(req)
 		if err != nil {
 			log.Printf("Error on parsing request JSON: %v", err)
+			c.badRequest(rw, err.Error())
 			return
 		}
 
