@@ -24,17 +24,10 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	switch req.Method {
 	case http.MethodPost:
-		body, err := ioutil.ReadAll(req.Body)
+		payload, err := c.parseRequestJSON(req)
 		if err != nil {
-			log.Printf("Error on reading the request body: %v", err)
-			break
-		}
-
-		var payload Request
-		err = json.Unmarshal(body, &payload)
-		if err != nil {
-			log.Printf("Error on unmarshalling the request body: %v", err)
-			break
+			log.Printf("Error on parsing request JSON: %v", err)
+			return
 		}
 
 		resp, err := c.Repository.Set(payload.Key, payload.Value)
@@ -46,11 +39,32 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		c.writeResponse(rw, statusCode, resp)
 	case http.MethodGet:
+		key := req.URL.Query().Get("key")
+		resp, err := c.Repository.Get(key)
+		statusCode := http.StatusOK
+		if err != nil {
+			log.Printf("Error while setting the value: %v", err)
+			statusCode = http.StatusInternalServerError
+		}
+
+		c.writeResponse(rw, statusCode, resp)
 	default:
 
 	}
 }
 
+func (c Controller) parseRequestJSON(r *http.Request) (Request, error) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return Request{}, err
+	}
+
+	var payload Request
+	err = json.Unmarshal(body, &payload)
+	if err != nil {
+		return payload, err
+	}
+}
 
 // writeResponse converts the response object to byte slice and writes it to response body.
 func (c Controller) writeResponse(rw http.ResponseWriter, statusCode int, resp Response) {
