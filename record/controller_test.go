@@ -25,7 +25,7 @@ func TestController_ServeHTTPByInvalidDate(t *testing.T) {
 		t.Errorf("returned incorrect status code. got: %v, expected: %v", status, http.StatusBadRequest)
 	}
 
-	expected := "{\n    \"code\": 2,\n    \"msg\": \"parsing time \\\"2016-01-2x\\\" as \\\"2006-01-02\\\": cannot parse \\\"2x\\\" as \\\"02\\\"\",\n    \"records\": null\n}"
+	expected := "{\"code\":2,\"msg\":\"parsing time \\\"2016-01-2x\\\" as \\\"2006-01-02\\\": cannot parse \\\"2x\\\" as \\\"02\\\"\",\"records\":null}"
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned incorrect response body. got: %v, expected: %v", rr.Body.String(), expected)
 	}
