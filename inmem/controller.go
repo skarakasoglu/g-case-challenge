@@ -64,6 +64,8 @@ func (c Controller) parseRequestJSON(r *http.Request) (Request, error) {
 	if err != nil {
 		return payload, err
 	}
+
+	return payload, err
 }
 
 // writeResponse converts the response object to byte slice and writes it to response body.
