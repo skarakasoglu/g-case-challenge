@@ -1,0 +1,15 @@
+version: '3.2'
+services:
+  getir_challenge:
+    container_name: GetirCaseChallenge
+    build: .
+    image: skarakasoglu/g-case-challenge:1.0.0
+    environment:
+      #APP_MODE: PROD executes make build & make run, APP_MODE: TEST executes make test
+      APP_MODE: PROD
+      DB_CONNECTION_STRING: mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/getir-case-study?retryWrites=true
+      DB_NAME: getir-case-study
+      REDIS_URL: redis://:p1132f2e6f478fec0015a6dc606c6d4a5fc8cd6310992b96883087a330b186798@ec2-18-202-109-193.eu-west-1.compute.amazonaws.com:30869
+      PORT: 8080
+    ports:
+      - "8080:8080"
