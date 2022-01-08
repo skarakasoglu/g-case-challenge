@@ -1,3 +1,4 @@
+// Package inmem manages operations between in-memory database.
 package inmem
 
 import (
@@ -7,11 +8,15 @@ import (
 	"net/http"
 )
 
+// Repository interface is used for interacting with an in-memory database.
+// It is used by a Controller to establish a communication between a service.
 type Repository interface{
 	Get(string) (Response, error)
 	Set(string, string) (Response, error)
 }
 
+// Controller is a handler for handling
+// requests coming to "/in-memory" endpoint.
 type Controller struct{
 	Repository Repository
 }
@@ -30,7 +35,11 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		resp, err := c.Repository.Set(payload.Key, payload.Value)
+		if !c.validateRequest(rw, payload) {
+			break
+		}
+
+		resp, err := c.Repository.Set(*payload.Key, *payload.Value)
 		statusCode := http.StatusOK
 		if err != nil {
 			log.Printf("Error while setting the value: %v", err)
@@ -49,12 +58,27 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		c.writeResponse(rw, statusCode, resp)
 	default:
-
+		c.methodNotAllowed(rw)
 	}
 }
 
-// parseRequestJSON reads all request body and unmarshals the JSON to
-// Request object.
+// validateRequest checks whether there are missing fields or not.
+func (c Controller) validateRequest(rw http.ResponseWriter, payload Request) bool {
+	if payload.Key == nil {
+		c.badRequest(rw, "key field is missing")
+		return false
+	}
+
+	if payload.Value == nil {
+		c.badRequest(rw, "value field is missing")
+		return false
+	}
+
+	return true
+}
+
+// parseRequestJSON reads all request body and
+// unmarshals the JSON to Request object.
 func (c Controller) parseRequestJSON(r *http.Request) (Request, error) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -70,7 +94,22 @@ func (c Controller) parseRequestJSON(r *http.Request) (Request, error) {
 	return payload, err
 }
 
-// writeResponse converts the response object to byte slice and writes it to response body.
+func (c Controller) badRequest(rw http.ResponseWriter, message string) {
+	resp := Response{
+		Error: message,
+	}
+	c.writeResponse(rw, http.StatusBadRequest, resp)
+}
+
+func (c Controller) methodNotAllowed(rw http.ResponseWriter) {
+	resp := Response{
+		Error: "the method is not allowed for this endpoint.",
+	}
+	c.writeResponse(rw, http.StatusMethodNotAllowed, resp)
+}
+
+// writeResponse converts the response object to
+// byte slice and writes it to response body.
 func (c Controller) writeResponse(rw http.ResponseWriter, statusCode int, resp Response) {
 	log.Printf("Sending response statusCode: %v, response: %+v", statusCode, resp)
 

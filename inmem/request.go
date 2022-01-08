@@ -1,7 +1,7 @@
 package inmem
 
-// Request
+// Request represents the request payload.
 type Request struct{
-	Key string `json:"key"`
-	Value string `json:"value"`
+	Key *string `json:"key"`
+	Value *string `json:"value"`
 }
