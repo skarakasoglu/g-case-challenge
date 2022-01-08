@@ -1,8 +1,8 @@
 package main
 
 import (
-	"flag"
 	"getir-assignment/api"
+	"getir-assignment/config"
 	"getir-assignment/inmem"
 	"getir-assignment/mongodb"
 	"getir-assignment/record"
@@ -12,23 +12,11 @@ import (
 	"syscall"
 )
 
-var (
-	dbUsername string
-	dbPassword string
-	dbHost string
-	dbName string
-)
-
-func init() {
-	flag.StringVar(&dbUsername, "db-username", "", "database login username")
-	flag.StringVar(&dbPassword, "db-password", "", "database login password")
-	flag.StringVar(&dbHost, "db-host", "", "database host address")
-	flag.StringVar(&dbName, "db-name", "", "default database name")
-	flag.Parse()
-}
-
 func main() {
-	conn := mongodb.NewConnection(dbUsername, dbPassword, dbHost, dbName)
+	appConfig := config.ReadFromEnvironmentVariables()
+	dbConfig := appConfig.Database
+
+	conn := mongodb.NewConnection(dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.DefaultDatabaseName)
 	conn.Connect()
 	defer conn.Disconnect()
 
