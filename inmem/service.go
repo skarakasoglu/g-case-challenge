@@ -1,6 +1,7 @@
 package inmem
 
-// Service
+// Service uses Dao to access the in-memory database.
+// creates responses according to the possible errors.
 type Service struct{
 	Dao Dao
 }

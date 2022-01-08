@@ -5,6 +5,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
+// Dao manages the interaction between the in-memory database.
 type Dao struct{
 	Db *redis.Client
 }

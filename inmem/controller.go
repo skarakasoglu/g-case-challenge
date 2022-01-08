@@ -21,12 +21,17 @@ type Controller struct{
 	Repository Repository
 }
 
+// ServeHTTP handles incoming requests to "/in-memory" endpoint.
+// Communicates with an in-memory database via a Repository.
+// POST requests set key and value pairs.
+// GET requests fetch the values of the keys.
 func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// the endpoint always returns JSON response.
 	// to notice the client about the content type,
 	// it is a great practice to specify in header.
 	rw.Header().Add("Content-Type", "application/json")
 
+	// the methods except POST and GET are not allowed.
 	switch req.Method {
 	case http.MethodPost:
 		payload, err := c.parseRequestJSON(req)
@@ -36,10 +41,13 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			return
 		}
 
+		// validate if all fields are provided.
 		if !c.validateRequest(rw, payload) {
 			break
 		}
 
+		// if an error is returned, it means that
+		// an internal server error occurred.
 		resp, err := c.Repository.Set(*payload.Key, *payload.Value)
 		statusCode := http.StatusOK
 		if err != nil {
