@@ -9,7 +9,7 @@ import (
 
 func TestController_ServeHTTPByInvalidDate(t *testing.T) {
 
-	request := "{\n    \"startDate\": \"2016-01-2x\",\n    \"endDate\": \"2018-02-02\",\n    \"minCount\": 2700,\n    \"maxCount\": 3000\n}"
+	request := "{\"startDate\": \"2016-01-2x\", \"endDate\": \"2018-02-02\", \"minCount\": 2700, \"maxCount\": 3000}"
 	r := strings.NewReader(request)
 	req, err := http.NewRequest(http.MethodPost, "/records", r)
 	if err != nil {
