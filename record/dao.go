@@ -7,14 +7,14 @@ import (
 	"log"
 )
 
-// Dao manages access of the database.
+// MongoDao manages access of the MongoDB database.
 // it is used by a Service to construct a view model.
-type Dao struct{
+type MongoDao struct{
 	Db *mongodb.Connection
 }
 
 // Find fetches the records filtering them according to tha values specified with FilterOptions.
-func (d Dao) Find(options FilterOptions) ([]Dto, error) {
+func (d MongoDao) Find(options FilterOptions) ([]Dto, error) {
 	var records []Dto
 
 	// go to the database and fetch the collection of records.

@@ -1,5 +1,11 @@
 package inmem
 
+// Dao interface is used to
+type Dao interface{
+	Get(string) (Dto, error)
+	Set(dto Dto) error
+}
+
 // Service uses Dao to access the in-memory database.
 // creates responses according to the possible errors.
 type Service struct{

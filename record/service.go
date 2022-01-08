@@ -1,8 +1,14 @@
 // Package record
 package record
 
+// Dao interface is used in Service to access data.
+type Dao interface{
+	Find(options FilterOptions) ([]Dto, error)
+}
+
 // Service used by a Controller to interact with a database.
-// it implements Repository interface to abstract the operations behind the scenes from the Controller.
+// it implements Repository interface to abstract
+// the operations behind the scenes from the Controller and make the code easier to test.
 type Service struct{
 	Dao Dao
 }
