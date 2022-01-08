@@ -10,7 +10,7 @@ type RedisDao struct{
 	Db *redis.Client
 }
 
-func (d *RedisDao) Get(key string) (Dto, error) {
+func (d RedisDao) Get(key string) (Dto, error) {
 	var dto Dto
 	dto.Key = key
 
@@ -25,7 +25,7 @@ func (d *RedisDao) Get(key string) (Dto, error) {
 	return dto, err
 }
 
-func (d *RedisDao) Set(dto Dto) error {
+func (d RedisDao) Set(dto Dto) error {
 	err := d.Db.Set(context.Background(), dto.Key, dto.Value, 0).Err()
 	return err
 }

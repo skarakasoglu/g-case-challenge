@@ -21,13 +21,13 @@ func main() {
 	conn.Connect()
 	defer conn.Disconnect()
 
-	recordDao := record.Dao{Db: conn}
+	recordDao := record.MongoDao{Db: conn}
 	recordService := record.Service{Dao: recordDao}
 	recordController := record.Controller{Repository: recordService}
 
 	redisCl := rediscl.NewClient(appConfig.RedisConnectionString)
 
-	inMemoryDao := inmem.Dao{Db: redisCl}
+	inMemoryDao := inmem.RedisDao{Db: redisCl}
 	inMemoryService := inmem.Service{Dao: inMemoryDao}
 	inMemoryController := inmem.Controller{ Repository: inMemoryService}
 
