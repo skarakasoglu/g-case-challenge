@@ -17,7 +17,7 @@ func main() {
 	appConfig := config.ReadFromEnvironmentVariables()
 	dbConfig := appConfig.Database
 
-	conn := mongodb.NewConnection(dbConfig.Username, dbConfig.Password, dbConfig.Host, dbConfig.DefaultDatabaseName)
+	conn := mongodb.NewConnection(dbConfig.ConnectionString, dbConfig.DefaultDatabaseName)
 	conn.Connect()
 	defer conn.Disconnect()
 

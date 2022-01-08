@@ -17,9 +17,7 @@ type Api struct{
 }
 
 type Database struct{
-	Username string
-	Password string
-	Host string
+	ConnectionString string
 	DefaultDatabaseName string
 }
 
@@ -31,10 +29,8 @@ func ReadFromEnvironmentVariables() App {
 
 	cnf := App{
 		Api: Api{Address: fmt.Sprintf(":%v", port)},
-			Database: Database{
-			Username:            os.Getenv("DB_USERNAME"),
-			Password:            os.Getenv("DB_PASSWORD"),
-			Host:                os.Getenv("DB_HOST"),
+		Database: Database{
+			ConnectionString:    os.Getenv("DB_CONNECTION_STRING"),
 			DefaultDatabaseName: os.Getenv("DB_NAME"),
 		},
 		RedisConnectionString: os.Getenv("REDIS_URL"),

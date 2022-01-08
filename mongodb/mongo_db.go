@@ -3,7 +3,6 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -14,20 +13,16 @@ import (
 type Connection struct{
 	*mongo.Client
 
-	username string
-	password string
-	host string
+	connectionString string
 	databaseName string
 
 	timeoutDuration int
 }
 
 // NewConnection creates a mongo db connection object.
-func NewConnection(username string, password string, host string, databaseName string) *Connection {
+func NewConnection(connectionString, databaseName string) *Connection {
 	return &Connection{
-		username: username,
-		password: password,
-		host: host,
+		connectionString: connectionString,
 		databaseName: databaseName,
 		timeoutDuration: 10,
 	}
@@ -39,7 +34,7 @@ func (c *Connection) Connect() {
 	defer cancel()
 
 	var err error
-	c.Client, err = mongo.Connect(ctx, options.Client().ApplyURI(c.connectionString()))
+	c.Client, err = mongo.Connect(ctx, options.Client().ApplyURI(c.connectionString))
 	if err != nil {
 		log.Fatalf("error on connecting to the database: %v", err)
 	}
@@ -58,9 +53,4 @@ func (c *Connection) Disconnect() {
 // DatabaseName returns the default database name.
 func (c *Connection) DatabaseName() string {
 	return c.databaseName
-}
-
-// connectionString creates a mongodb connection string by using the required parameters.
-func (c *Connection) connectionString() string {
-	return fmt.Sprintf("mongodb+srv://%[1]v:%[2]v@%[3]v/%[4]v?retryWrites=true", c.username, c.password, c.host, c.databaseName)
 }

@@ -43,7 +43,7 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		resp, err := c.Repository.Get(key)
 		statusCode := http.StatusOK
 		if err != nil {
-			log.Printf("Error while setting the value: %v", err)
+			log.Printf("Error while getting the value: %v", err)
 			statusCode = http.StatusInternalServerError
 		}
 
@@ -53,6 +53,8 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// parseRequestJSON reads all request body and unmarshals the JSON to
+// Request object.
 func (c Controller) parseRequestJSON(r *http.Request) (Request, error) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
