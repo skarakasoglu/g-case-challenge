@@ -47,7 +47,7 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			break
 		}
 
-		var payload RequestPayload
+		var payload Request
 		err = json.Unmarshal(body, &payload)
 		if err != nil {
 			log.Printf("Error on unmarshalling the request body: %v", err)
@@ -83,9 +83,9 @@ func (c Controller) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 // validateRequiredFields checks whether the fields in request payload are satisfied.
 // if not, sends "400 Bad Request" as response.
 // Then, it returns if request payload is valid or not.
-func (c Controller) validateRequiredFields(rw http.ResponseWriter, payload RequestPayload) bool {
+func (c Controller) validateRequiredFields(rw http.ResponseWriter, payload Request) bool {
 	// since these fields are pointer types, if they are not provided in request JSON
-	// after marshalling the JSON to a RequestPayload object, they will be nil.
+	// after marshalling the JSON to a Request object, they will be nil.
 	// if a field is nil, it means that the field is not provided
 	// so the API will return a bad request response with the information of which field is missing.
 	if payload.StartDate == nil {

@@ -33,7 +33,7 @@ func NewConnection(username string, password string, host string, databaseName s
 	}
 }
 
-// Connect creates a mongodb client and connects to it.
+// Connect creates a mongodb client and connects to it by using the connection string.
 func (c *Connection) Connect() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(c.timeoutDuration) * time.Second)
 	defer cancel()

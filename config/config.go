@@ -9,6 +9,7 @@ import (
 type App struct {
 	Api Api
 	Database Database
+	RedisConnectionString string
 }
 
 type Api struct{
@@ -30,12 +31,14 @@ func ReadFromEnvironmentVariables() App {
 
 	cnf := App{
 		Api: Api{Address: fmt.Sprintf(":%v", port)},
-		Database: Database{
-		Username:            os.Getenv("DB_USERNAME"),
-		Password:            os.Getenv("DB_PASSWORD"),
-		Host:                os.Getenv("DB_HOST"),
-		DefaultDatabaseName: os.Getenv("DB_NAME"),
-	}}
+			Database: Database{
+			Username:            os.Getenv("DB_USERNAME"),
+			Password:            os.Getenv("DB_PASSWORD"),
+			Host:                os.Getenv("DB_HOST"),
+			DefaultDatabaseName: os.Getenv("DB_NAME"),
+		},
+		RedisConnectionString: os.Getenv("REDIS_URL"),
+	}
 
 	return cnf
 }
