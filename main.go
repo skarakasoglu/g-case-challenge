@@ -31,7 +31,7 @@ func main() {
 		{ Path: "/in-memory", Handler: inMemoryController},
 	}
 	go func() {
-		err := api.Start(":8080", endpoints...)
+		err := api.Start(appConfig.Api.Address, endpoints...)
 		if err != nil {
 			log.Fatalf("error on serving HTTP: %v", err)
 		}

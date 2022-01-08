@@ -1,9 +1,18 @@
 package config
 
-import "os"
+import (
+	"fmt"
+	"log"
+	"os"
+)
 
 type App struct {
+	Api Api
 	Database Database
+}
+
+type Api struct{
+	Address string
 }
 
 type Database struct{
@@ -14,7 +23,13 @@ type Database struct{
 }
 
 func ReadFromEnvironmentVariables() App {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatalln("PORT variable must be set.")
+	}
+
 	cnf := App{
+		Api: Api{Address: fmt.Sprintf(":%v", port)},
 		Database: Database{
 		Username:            os.Getenv("DB_USERNAME"),
 		Password:            os.Getenv("DB_PASSWORD"),
