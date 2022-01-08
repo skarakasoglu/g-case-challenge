@@ -9,3 +9,4 @@ run:
 test:
 	echo "Running all tests for GetirCaseChallenge"
 	go test ./record/
+	go test ./inmem/

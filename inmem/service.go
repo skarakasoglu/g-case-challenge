@@ -1,6 +1,7 @@
 package inmem
 
-// Dao interface is used to
+// Dao interface is used by a Service to construct a response model
+// using data obtained from the database.
 type Dao interface{
 	Get(string) (Dto, error)
 	Set(dto Dto) error
@@ -41,7 +42,10 @@ func (s Service) Set(key string, value string) (Response, error) {
 		Value:  value,
 	})
 	if err != nil {
-		return Response{}, err
+		return Response{
+			Key: key,
+			Error: "internal server error occurred.",
+		}, err
 	}
 
 	resp := Response{
