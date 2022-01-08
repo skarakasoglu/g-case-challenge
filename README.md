@@ -36,7 +36,7 @@ docker build -t skarakasoglu/g-case-challenge:1.0.0
 docker run -p 8080:8080 --name GetirCaseChallenge \
 -e DB_NAME=db -e DB_CONNECTION_STRING=connectionString \
 -e REDIS_URL=redisConnectionString -e PORT=8080 \
--e APP_MODE=PROD
+-e APP_MODE=PROD \
 skarakasoglu/g-case-challenge
 ```
 
