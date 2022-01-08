@@ -1,11 +1,11 @@
 package inmem
 
 type Service struct{
-	dao Dao
+	Dao Dao
 }
 
 func (s Service) Get(key string) (Response, error) {
-	val, err := s.dao.Get(key)
+	val, err := s.Dao.Get(key)
 	if err != nil {
 		return Response{}, err
 	}
@@ -18,7 +18,7 @@ func (s Service) Get(key string) (Response, error) {
 }
 
 func (s Service) Set(key string, value string) (Response, error) {
-	err := s.dao.Set(key, value)
+	err := s.Dao.Set(key, value)
 	if err != nil {
 		return Response{}, err
 	}

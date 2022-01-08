@@ -1,5 +1,5 @@
-// Package redis creates new redis client by using the connection url.
-package redis
+// Package rediscl creates new redis client by using the connection url.
+package rediscl
 
 import (
 	"github.com/go-redis/redis/v8"

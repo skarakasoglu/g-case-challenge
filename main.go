@@ -6,6 +6,7 @@ import (
 	"getir-assignment/inmem"
 	"getir-assignment/mongodb"
 	"getir-assignment/record"
+	rediscl "getir-assignment/redis"
 	"log"
 	"os"
 	"os/signal"
@@ -24,7 +25,11 @@ func main() {
 	recordService := record.Service{Dao: recordDao}
 	recordController := record.Controller{Repository: recordService}
 
-	inMemoryController := inmem.Controller{}
+	redisCl := rediscl.NewClient(appConfig.RedisConnectionString)
+
+	inMemoryDao := inmem.Dao{Db: redisCl}
+	inMemoryService := inmem.Service{Dao: inMemoryDao}
+	inMemoryController := inmem.Controller{ Repository: inMemoryService}
 
 	endpoints := []api.Endpoint{
 		{ Path: "/records", Handler: recordController},
