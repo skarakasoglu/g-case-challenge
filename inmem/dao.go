@@ -18,6 +18,8 @@ func (d *Dao) Get(key string) (Dto, error) {
 		dto.Exists = false
 		return dto, nil
 	}
+
+	dto.Exists = true
 	dto.Value = val
 	return dto, err
 }
