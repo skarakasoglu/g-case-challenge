@@ -1,12 +1,12 @@
 package main
 
 import (
-	"getir-assignment/api"
-	"getir-assignment/config"
-	"getir-assignment/inmem"
-	"getir-assignment/mongodb"
-	"getir-assignment/record"
-	rediscl "getir-assignment/redis"
+	"github.com/skarakasoglu/g-case-challenge/api"
+	"github.com/skarakasoglu/g-case-challenge/config"
+	"github.com/skarakasoglu/g-case-challenge/inmem"
+	"github.com/skarakasoglu/g-case-challenge/mongodb"
+	"github.com/skarakasoglu/g-case-challenge/record"
+	rediscl "github.com/skarakasoglu/g-case-challenge/redis"
 	"log"
 	"os"
 	"os/signal"

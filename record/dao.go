@@ -2,7 +2,7 @@ package record
 
 import (
 	"context"
-	"getir-assignment/mongodb"
+	"github.com/skarakasoglu/g-case-challenge/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
 )
