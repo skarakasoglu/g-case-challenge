@@ -8,4 +8,4 @@ run:
 
 test:
 	echo "Running all tests for GetirCaseChallenge"
-	go test
+	go test github.com/skarakasoglu/g-case-challenge
